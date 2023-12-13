@@ -16,6 +16,12 @@ export default function Home() {
           </button>
         </div>
       </form>
+      <div className="col-span-4 pc:col-span-8 ml-[10px] pc:ml-[20px]">
+        총 <span className="font-bold">2</span>개의 상품이 추가됐어요.
+        <br />
+        현재 구매 가능한 상품은 <span className="font-bold">1</span>개예요.
+      </div>
+      {/* 상품 리스트 map... */}
       <div></div>
     </>
   );
