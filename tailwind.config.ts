@@ -9,12 +9,22 @@ const config: Config = {
   darkMode: "class",
 
   theme: {
+    fontSize: {
+      base: "1rem",
+      h6: "1.188rem",
+      h5: "1.438rem",
+      h4: "1.75rem",
+      h3: "2.062rem",
+      h2: "2.5rem",
+      h1: "3rem",
+    },
     screens: {
       mobile: { max: "1280px" },
       pc: "1280px",
     },
     colors: {
       text: "#000000",
+      main: "#03C75A",
     },
     extend: {
       fontFamily: {
@@ -28,7 +38,7 @@ const config: Config = {
               fontWeight: 400,
             },
             "p, span, h1, h2, h3, h4, h5, h6": {
-              marginBottom: "10px",
+              marginBottom: 0,
               marginTop: 0,
             },
             h1: {
