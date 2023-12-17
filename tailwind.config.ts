@@ -24,7 +24,10 @@ const config: Config = {
     },
     colors: {
       text: "#000000",
-      main: "#03C75A",
+      main: "#03C75a",
+      secondary: "#f5f5f5",
+      gray: "#a2a2a2",
+      white: "#ffffff",
     },
     extend: {
       fontFamily: {
@@ -40,6 +43,7 @@ const config: Config = {
             "p, span, h1, h2, h3, h4, h5, h6": {
               marginBottom: 0,
               marginTop: 0,
+              fontWeight: 800,
             },
             h1: {
               fontSize: "3rem",

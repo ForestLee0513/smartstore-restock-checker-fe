@@ -1,3 +1,5 @@
+import Button from "./_components/Button";
+
 export default function Home() {
   const addProductToLocalStoraege = () => {};
 
@@ -22,7 +24,42 @@ export default function Home() {
         현재 구매 가능한 상품은 <span className="font-bold">1</span>개예요.
       </div>
       {/* 상품 리스트 map... */}
-      <div></div>
+      <div className="shadow col-span-4 pc:col-span-2 rounded">
+        <div className="pt-[54%] mt-0 relative bg-secondary rounded-t">
+          {/* <Image
+            src={coverImage}
+            alt={`${slug}-thumbnail`}
+            className="w-full h-full m-0"
+            layout="fill"
+            objectFit="cover"
+          /> */}
+        </div>
+        <div className="p-[10px] rounded">
+          <h5 className="font-bold mb-1">Title</h5>
+          <h6 className="font-bold mb-1">15,000원</h6>
+          <Button color="primary" className="w-full">
+            구매 페이지로 이동
+          </Button>
+        </div>
+      </div>
+      <div className="shadow col-span-4 pc:col-span-2 rounded">
+        <div className="pt-[54%] mt-0 relative bg-secondary rounded-t">
+          {/* <Image
+            src={coverImage}
+            alt={`${slug}-thumbnail`}
+            className="w-full h-full m-0"
+            layout="fill"
+            objectFit="cover"
+          /> */}
+        </div>
+        <div className="p-[10px] rounded">
+          <h5 className="font-bold mb-1">Title</h5>
+          <h6 className="font-bold mb-1">15,000원</h6>
+          <Button color="primary" disabled className="w-full">
+            품절
+          </Button>
+        </div>
+      </div>
     </>
   );
 }
