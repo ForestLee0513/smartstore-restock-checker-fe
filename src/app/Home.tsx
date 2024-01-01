@@ -1,18 +1,9 @@
 "use client";
-
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import axios from "axios";
 import Button from "./_components/Button";
 import Image from "next/image";
-
-interface productInfoType {
-  price: string;
-  priceCurrency: string;
-  soldout: boolean;
-  title: string;
-  url: string;
-  imageUrl: string;
-}
+import { productInfoType } from "./page";
 
 export default function Home() {
   const [productList, setProductList] = useState<productInfoType[]>([]);
@@ -36,31 +27,18 @@ export default function Home() {
     event: FormEvent<HTMLFormElement>
   ) => {
     // TODO 상품 요청 전 중복상품이 있는 경우 필터링 처리
-    event.preventDefault();
     const urlRegex =
       /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-    // 해당 url이 이전에 등록했던 것과 동일한지 확인
-    const isIncludedBefore =
-      productList.filter((product) => {
-        return product.url === productUrl;
-      }).length > 0;
 
-    if (isIncludedBefore) {
-      return alert("이미 등록된 상품이예요. 다른 상품으로 등록해주세요.");
-    }
+    event.preventDefault();
 
-    if (!productUrl) {
-      return alert("아무런 값이 입력되지 않았어요. URL을 입력해주세요.");
-    }
-
-    if (urlRegex.test(productUrl)) {
+    if (productUrl && urlRegex.test(productUrl)) {
       const { data } = await axios.post("http://localhost:5001/get-product", {
-        url: productUrl,
+        url: "https://brand.naver.com/roborock/products/9404680406",
       });
       setProductList([...productList, data.productInfo]);
-      setProductUrl("");
     } else {
-      alert("URL이 입력되지 않았어요 URL으로 입력해주세요.");
+      alert("상품 URL을 입력해주세요.");
     }
   };
 
