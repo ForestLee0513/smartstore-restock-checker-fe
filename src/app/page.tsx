@@ -68,7 +68,7 @@ export default function Home() {
           <Image
             src="https://shop-phinf.pstatic.net/20230808_47/1691469019058F849x_PNG/6394707006185423_1622034117.png?type=m510"
             alt={`product-thumbnail`}
-            className="w-full h-auto m-0 object-fill bg-cover"
+            className="w-full h-full m-0 object-cover bg-cover"
             width={0}
             height={0}
             sizes="100vw"
