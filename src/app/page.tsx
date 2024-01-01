@@ -84,7 +84,7 @@ export default function Home() {
     <>
       <div className="col-span-4 pc:col-span-8">
         <h1 className="col-span-4 pc:col-span-8">리노티</h1>
-        품절된 상품을 구매할 수 있으면 알려줘요.
+        품절된 상품을 구매할 수 있으면 알려드려요.
         <br />
         구매가능 여부는 1시간마다 갱신돼요.
       </div>

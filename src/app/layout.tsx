@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "스마트스토어 재입고 알리미",
-  description: "재입고 알림 기능이 없는 스마트스토어에 알림기능을 추가합니다.",
+  title: "리노티",
+  description: "스마트스토어의 상품 중 품절된 상품이 재입고 됐다면 알려드려요.",
 };
 
 export default function RootLayout({
