@@ -108,9 +108,12 @@ export default function Home() {
         현재 구매 가능한 상품은{" "}
         <span className="font-bold">{buyableProductCount}</span>개예요.
       </div>
-      {productList.map((product, index) => {
+      {productList.map((product) => {
         return (
-          <div className="shadow col-span-4 pc:col-span-2 rounded" key={index}>
+          <div
+            className="shadow col-span-4 pc:col-span-2 rounded"
+            key={product.url}
+          >
             <div className="mt-0 relative bg-secondary rounded-t h-[250px]">
               <Image
                 src={product.imageUrl}
