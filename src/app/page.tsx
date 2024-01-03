@@ -74,6 +74,7 @@ export default function Home() {
     setIsMounted(true);
   }, []);
 
+  // productList가 변경될때마다 로컬스토리지를 새로 지정
   useEffect(() => {
     if (isMounted) {
       localStorage.setItem("productList", JSON.stringify(productList));
@@ -116,7 +117,7 @@ export default function Home() {
       {productList.map((product) => {
         return (
           <div
-            className="shadow col-span-4 pc:col-span-2 rounded"
+            className="shadow col-span-4 pc:col-span-2 rounded flex flex-col"
             key={product.url}
           >
             <div className="mt-0 relative bg-secondary rounded-t h-[250px]">
@@ -129,13 +130,13 @@ export default function Home() {
                 sizes="100vw"
               />
             </div>
-            <div className="p-[10px] rounded">
+            <div className="p-[10px] rounded flex flex-col flex-1">
               <h5 className="font-bold mb-1">{product.title}</h5>
               <h6 className="font-bold mb-1">
                 {product.price}
                 {product.priceCurrency}
               </h6>
-              <a href={product.url}>
+              <a href={product.url} className="mt-[auto]">
                 <Button
                   color="primary"
                   disabled={product.soldout}
