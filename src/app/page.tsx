@@ -4,7 +4,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import axios from "axios";
 import Button from "./_components/Button";
 import Image from "next/image";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { editModeState } from "@/recoil/EditMode";
 
 interface productInfoType {
@@ -20,10 +20,33 @@ export default function Home() {
   const [productList, setProductList] = useState<productInfoType[]>([]);
   const [productUrl, setProductUrl] = useState<string>("");
   const [isMounted, setIsMounted] = useState(false);
+  const editMode = useRecoilValue(editModeState);
+  const [selectedItems, setSelectedItems] = useState<productInfoType[]>([]);
   const productCount = productList.length;
   const buyableProductCount = productList.filter((product) => {
     return product.soldout === false;
   }).length;
+
+  // 삭제할 아이템 인풋제어
+  const selectDeleteTargetItems = (
+    event: ChangeEvent<HTMLInputElement>,
+    item: productInfoType
+  ) => {
+    const {
+      target: { checked },
+    } = event;
+    if (checked === true) {
+      setSelectedItems([...selectedItems, item]);
+    } else {
+      setSelectedItems(
+        selectedItems.filter((selectedItem) => selectedItem.url !== item.url)
+      );
+    }
+  };
+
+  useEffect(() => {
+    console.log(selectedItems);
+  }, [selectedItems]);
 
   const handleProductUrlInputChange = (
     event: ChangeEvent<HTMLInputElement>
@@ -83,6 +106,13 @@ export default function Home() {
     }
   }, [productList, isMounted]);
 
+  // editMode에서 벗어날 경우 선택된 아이템 토글 해제
+  useEffect(() => {
+    if (editMode === false) {
+      setSelectedItems([]);
+    }
+  }, [editMode]);
+
   return (
     <>
       <div className="col-span-4 pc:col-span-8">
@@ -119,9 +149,21 @@ export default function Home() {
       {productList.map((product) => {
         return (
           <div
-            className="shadow col-span-4 pc:col-span-2 rounded flex flex-col"
+            className="shadow col-span-4 pc:col-span-2 rounded flex flex-col relative"
             key={product.url}
           >
+            {editMode ? (
+              <input
+                className="absolute top-[10px] right-[10px] z-[1]"
+                type="checkbox"
+                onChange={(event) => {
+                  selectDeleteTargetItems(event, product);
+                }}
+              />
+            ) : (
+              ""
+            )}
+
             <div className="mt-0 relative bg-secondary rounded-t h-[250px]">
               <Image
                 src={product.imageUrl}
