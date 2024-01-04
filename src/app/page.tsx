@@ -4,6 +4,8 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import axios from "axios";
 import Button from "./_components/Button";
 import Image from "next/image";
+import { useRecoilState } from "recoil";
+import { editModeState } from "@/recoil/EditMode";
 
 interface productInfoType {
   price: string;
