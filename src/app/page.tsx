@@ -7,11 +7,14 @@ import Image from "next/image";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { editModeState, selectedDeleteItemsState } from "@/recoil/EditMode";
 import { productInfoType } from "@/types/product";
+import { productListState } from "@/recoil/Items";
+import { useRecoilStateWithSSR } from "./hooks/useRecoilStateWithSSR";
 
 export default function Home() {
-  const [productList, setProductList] = useState<productInfoType[]>([]);
+  const [productList, setProductList] = useRecoilStateWithSSR<
+    productInfoType[]
+  >(productListState, []);
   const [productUrl, setProductUrl] = useState<string>("");
-  const [isMounted, setIsMounted] = useState(false);
   const editMode = useRecoilValue(editModeState);
   const [selectedDeleteItems, setSelectedDeleteItems] = useRecoilState(
     selectedDeleteItemsState
@@ -21,7 +24,7 @@ export default function Home() {
     return product.soldout === false;
   }).length;
 
-  // 삭제할 아이템 인풋제어
+  // 삭제할 아이템 체크박스제어
   const selectDeleteTargetItems = (
     event: ChangeEvent<HTMLInputElement>,
     item: productInfoType
@@ -49,9 +52,7 @@ export default function Home() {
     setProductUrl(value);
   };
 
-  const addProductToLocalStoraege = async (
-    event: FormEvent<HTMLFormElement>
-  ) => {
+  const addProduct = async (event: FormEvent<HTMLFormElement>) => {
     // TODO 상품 요청 전 중복상품이 있는 경우 필터링 처리
     event.preventDefault();
     const urlRegex =
@@ -81,23 +82,6 @@ export default function Home() {
     }
   };
 
-  // 로컬스토리지의 값을 스테이트로 지정
-  useEffect(() => {
-    const productListFromLocalStroage = localStorage.getItem("productList");
-
-    if (productListFromLocalStroage) {
-      setProductList(JSON.parse(productListFromLocalStroage));
-    }
-    setIsMounted(true);
-  }, []);
-
-  // productList가 변경될때마다 로컬스토리지를 새로 지정
-  useEffect(() => {
-    if (isMounted) {
-      localStorage.setItem("productList", JSON.stringify(productList));
-    }
-  }, [productList, isMounted]);
-
   return (
     <>
       <div className="col-span-4 pc:col-span-8">
@@ -106,10 +90,7 @@ export default function Home() {
         <br />
         구매가능 여부는 1시간마다 갱신돼요.
       </div>
-      <form
-        className="col-span-4 pc:col-span-8"
-        onSubmit={addProductToLocalStoraege}
-      >
+      <form className="col-span-4 pc:col-span-8" onSubmit={addProduct}>
         <div className="relative">
           <input
             className="text w-full border-[1px] border-main pc:text-h6 py-[12px] pl-[20px] pr-[44px] pc:py-[18px] pc:pl-[40px] pc:pr-[88px] rounded-full"

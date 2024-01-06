@@ -22,6 +22,11 @@ const Header = () => {
     setEditMode(!editMode);
   };
 
+  // 아이템 삭제
+  const deleteItems = () => {
+    console.log(selectedDeleteItems);
+  };
+
   useEffect(() => {
     if (editMode === false) {
       setSelectedDeleteItems([]);
@@ -36,7 +41,7 @@ const Header = () => {
         <button onClick={toggleMenu}>메뉴</button>
       )}
       {editMode ? (
-        <button>삭제</button>
+        <button onClick={deleteItems}>삭제</button>
       ) : (
         <button onClick={toggleEditMode}>수정</button>
       )}
