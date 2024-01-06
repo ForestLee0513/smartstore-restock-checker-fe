@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import axios from "axios";
 import Button from "./_components/Button";
 import Image from "next/image";
@@ -8,7 +8,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { editModeState, selectedDeleteItemsState } from "@/recoil/EditMode";
 import { productInfoType } from "@/types/product";
 import { productListState } from "@/recoil/Items";
-import { useRecoilStateWithSSR } from "./hooks/useRecoilStateWithSSR";
+import { useRecoilStateWithSSR } from "../hooks/useRecoilStateWithSSR";
 
 export default function Home() {
   const [productList, setProductList] = useRecoilStateWithSSR<
@@ -72,11 +72,15 @@ export default function Home() {
     }
 
     if (urlRegex.test(productUrl)) {
-      const { data } = await axios.post("http://localhost:5001/get-product", {
-        url: productUrl,
-      });
-      setProductList([...productList, data.productInfo]);
-      setProductUrl("");
+      try {
+        const { data } = await axios.post("http://localhost:5001/get-product", {
+          url: productUrl,
+        });
+        setProductList([...productList, data.productInfo]);
+        setProductUrl("");
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       alert("URL이 입력되지 않았어요 URL으로 입력해주세요.");
     }
