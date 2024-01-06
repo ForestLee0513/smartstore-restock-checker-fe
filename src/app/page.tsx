@@ -4,24 +4,18 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import axios from "axios";
 import Button from "./_components/Button";
 import Image from "next/image";
-import { useRecoilValue } from "recoil";
-import { editModeState } from "@/recoil/EditMode";
-
-interface productInfoType {
-  price: string;
-  priceCurrency: string;
-  soldout: boolean;
-  title: string;
-  url: string;
-  imageUrl: string;
-}
+import { useRecoilState, useRecoilValue } from "recoil";
+import { editModeState, selectedDeleteItemsState } from "@/recoil/EditMode";
+import { productInfoType } from "@/types/product";
 
 export default function Home() {
   const [productList, setProductList] = useState<productInfoType[]>([]);
   const [productUrl, setProductUrl] = useState<string>("");
   const [isMounted, setIsMounted] = useState(false);
   const editMode = useRecoilValue(editModeState);
-  const [selectedItems, setSelectedItems] = useState<productInfoType[]>([]);
+  const [selectedDeleteItems, setSelectedDeleteItems] = useRecoilState(
+    selectedDeleteItemsState
+  );
   const productCount = productList.length;
   const buyableProductCount = productList.filter((product) => {
     return product.soldout === false;
@@ -36,17 +30,15 @@ export default function Home() {
       target: { checked },
     } = event;
     if (checked === true) {
-      setSelectedItems([...selectedItems, item]);
+      setSelectedDeleteItems([...selectedDeleteItems, item]);
     } else {
-      setSelectedItems(
-        selectedItems.filter((selectedItem) => selectedItem.url !== item.url)
+      setSelectedDeleteItems(
+        selectedDeleteItems.filter(
+          (selectedItem) => selectedItem.url !== item.url
+        )
       );
     }
   };
-
-  useEffect(() => {
-    console.log(selectedItems);
-  }, [selectedItems]);
 
   const handleProductUrlInputChange = (
     event: ChangeEvent<HTMLInputElement>
@@ -105,13 +97,6 @@ export default function Home() {
       localStorage.setItem("productList", JSON.stringify(productList));
     }
   }, [productList, isMounted]);
-
-  // editMode에서 벗어날 경우 선택된 아이템 토글 해제
-  useEffect(() => {
-    if (editMode === false) {
-      setSelectedItems([]);
-    }
-  }, [editMode]);
 
   return (
     <>
