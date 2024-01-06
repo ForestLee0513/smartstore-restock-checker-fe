@@ -15,7 +15,7 @@ export default function Home() {
     productInfoType[]
   >(productListState, []);
   const [productUrl, setProductUrl] = useState<string>("");
-  const editMode = useRecoilValue(editModeState);
+  const [editMode, setEditMode] = useRecoilState(editModeState);
   const [selectedDeleteItems, setSelectedDeleteItems] = useRecoilState(
     selectedDeleteItemsState
   );
@@ -78,6 +78,7 @@ export default function Home() {
         });
         setProductList([...productList, data.productInfo]);
         setProductUrl("");
+        setEditMode(false);
       } catch (error) {
         console.log(error);
       }

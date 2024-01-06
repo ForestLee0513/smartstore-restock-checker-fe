@@ -1,6 +1,7 @@
 "use client";
 
 import { editModeState, selectedDeleteItemsState } from "@/recoil/EditMode";
+import { productListState } from "@/recoil/Items";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
@@ -10,6 +11,7 @@ const Header = () => {
   const [selectedDeleteItems, setSelectedDeleteItems] = useRecoilState(
     selectedDeleteItemsState
   );
+  const [productList, setProductList] = useRecoilState(productListState);
 
   // 메뉴 열기
   const toggleMenu = () => {
@@ -24,7 +26,17 @@ const Header = () => {
 
   // 아이템 삭제
   const deleteItems = () => {
-    console.log(selectedDeleteItems);
+    if (selectedDeleteItems.length <= 0) {
+      return alert("삭제할 상품이 선택되지 않았어요.");
+    }
+    const removedProductList = productList.filter(
+      (item) =>
+        !selectedDeleteItems.some((targetItem) => item.url === targetItem.url)
+    );
+
+    setProductList(removedProductList);
+    setSelectedDeleteItems([]);
+    setEditMode(false);
   };
 
   useEffect(() => {
