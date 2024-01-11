@@ -5,12 +5,19 @@ const withPWA = require("next-pwa")({
   skipWaiting: true,
   customWorkerDir: "worker",
   runtimeCaching,
+  disable: process.env.NODE_ENV === "development" ? true : false,
 });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["shop-phinf.pstatic.net"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "shop-phinf.pstatic.net",
+        pathname: "**",
+      },
+    ],
   },
 };
 
