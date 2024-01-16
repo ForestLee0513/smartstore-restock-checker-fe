@@ -5,6 +5,9 @@ import { productListState } from "@/recoil/Items";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
+import X from "@public/icons/x.svg";
+import Menu from "@public/icons/menu.svg";
+
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [editMode, setEditMode] = useRecoilState(editModeState);
@@ -48,9 +51,13 @@ const Header = () => {
   return (
     <header className="py-[10px] flex mx-auto w-[90%] pc:max-w-[1920px] justify-between">
       {editMode ? (
-        <button onClick={toggleEditMode}>닫기</button>
+        <button onClick={toggleEditMode}>
+          <X className="h-[28px] w-[28px]" />
+        </button>
       ) : (
-        <button onClick={toggleMenu}>메뉴</button>
+        <button onClick={toggleMenu}>
+          <Menu className="h-[28px] w-[28px]" />
+        </button>
       )}
       {editMode ? (
         <button onClick={deleteItems}>삭제</button>

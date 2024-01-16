@@ -10,6 +10,8 @@ import { productInfoType } from "@/types/product";
 import { productListState } from "@/recoil/Items";
 import { useRecoilStateWithSSR } from "../hooks/useRecoilStateWithSSR";
 
+import Plus from "@public/icons/plus.svg";
+
 export default function Home() {
   const [productList, setProductList] = useRecoilStateWithSSR<
     productInfoType[]
@@ -106,7 +108,7 @@ export default function Home() {
             onChange={handleProductUrlInputChange}
           />
           <button className="absolute top-2/4 translate-y-[-50%] right-[20px] pc:right-[40px] w-[24px] h-[24px] pc:w-[34px] pc:h-[34px]">
-            Add
+            <Plus className="h-[24px] w-[24px] pc:h-[34px] pc:w-[34px] fill-main" />
           </button>
         </div>
       </form>
