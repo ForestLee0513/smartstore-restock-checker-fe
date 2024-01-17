@@ -13,6 +13,11 @@ import { useRecoilStateWithSSR } from "../hooks/useRecoilStateWithSSR";
 import Plus from "@public/icons/plus.svg";
 import Refresh from "@public/icons/refresh.svg";
 
+const refreshButtonStyles = {
+  default: "w-[24px] h-[24px]",
+  refresh: "w-[24px] h-[24px] animate-spin",
+};
+
 export default function Home() {
   const [productList, setProductList] = useRecoilStateWithSSR<
     productInfoType[]
@@ -21,6 +26,7 @@ export default function Home() {
     refreshDateState,
     0
   );
+  const [isRefresh, setIsRefresh] = useState<boolean>(false);
   const refreshDateInstance = new Date(refreshDate);
   const formattedRefreshDate = `${refreshDateInstance.getFullYear()}년 ${
     refreshDateInstance.getMonth() + 1
@@ -64,15 +70,22 @@ export default function Home() {
   };
 
   const refreshItems = async () => {
-    try {
-      const { data } = await axios.post("http://localhost:5001/get-products", {
-        url: productList.map((item) => item.url),
-      });
-      setProductList(data.productInfo);
-      setRefreshDate(Date.now());
-    } catch (error) {
-      console.log(error);
+    setIsRefresh(true);
+    if (isRefresh === false) {
+      try {
+        const { data } = await axios.post(
+          "http://localhost:5001/get-products",
+          {
+            url: productList.map((item) => item.url),
+          }
+        );
+        setProductList(data.productInfo);
+        setRefreshDate(Date.now());
+      } catch (error) {
+        console.log(error);
+      }
     }
+    setIsRefresh(false);
   };
 
   const addProduct = async (event: FormEvent<HTMLFormElement>) => {
@@ -142,8 +155,18 @@ export default function Home() {
       </div>
       <div className="col-span-4 pc:col-span-8">
         <p className="inline-flex font-normal">
-          <button className=" mr-[10px]" onClick={refreshItems}>
-            <Refresh className="w-[24px] h-[24px]" />
+          <button
+            className=" mr-[10px]"
+            onClick={refreshItems}
+            disabled={isRefresh}
+          >
+            <Refresh
+              className={
+                isRefresh
+                  ? refreshButtonStyles.refresh
+                  : refreshButtonStyles.default
+              }
+            />
           </button>
           <span>마지막 갱신 시간:</span>&nbsp;
           {refreshDate !== 0
