@@ -11,6 +11,7 @@ import { productListState } from "@/recoil/Items";
 import { useRecoilStateWithSSR } from "../hooks/useRecoilStateWithSSR";
 
 import Plus from "@public/icons/plus.svg";
+import Refresh from "@public/icons/refresh.svg";
 
 export default function Home() {
   const [productList, setProductList] = useRecoilStateWithSSR<
@@ -52,6 +53,17 @@ export default function Home() {
       target: { value },
     } = event;
     setProductUrl(value);
+  };
+
+  const refreshItems = async () => {
+    try {
+      const { data } = await axios.post("http://localhost:5001/get-products", {
+        url: productList.map((item) => item.url),
+      });
+      setProductList(data.productInfo);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const addProduct = async (event: FormEvent<HTMLFormElement>) => {
@@ -118,6 +130,14 @@ export default function Home() {
         <br />
         현재 구매 가능한 상품은{" "}
         <span className="font-bold">{buyableProductCount}</span>개예요.
+      </div>
+      <div className="col-span-4 pc:col-span-8">
+        <p className="inline-flex font-normal">
+          <button className=" mr-[10px]" onClick={refreshItems}>
+            <Refresh className="w-[24px] h-[24px]" />
+          </button>
+          <span>마지막 갱신 시간:</span>&nbsp;2024년 1월 10일 11:24:39[example]
+        </p>
       </div>
       {productList.map((product) => {
         return (
