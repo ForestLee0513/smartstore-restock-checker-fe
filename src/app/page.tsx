@@ -4,10 +4,10 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import axios from "axios";
 import Button from "./_components/Button";
 import Image from "next/image";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { editModeState, selectedDeleteItemsState } from "@/recoil/EditMode";
 import { productInfoType } from "@/types/product";
-import { productListState } from "@/recoil/Items";
+import { productListState, refreshDateState } from "@/recoil/Items";
 import { useRecoilStateWithSSR } from "../hooks/useRecoilStateWithSSR";
 
 import Plus from "@public/icons/plus.svg";
@@ -17,6 +17,14 @@ export default function Home() {
   const [productList, setProductList] = useRecoilStateWithSSR<
     productInfoType[]
   >(productListState, []);
+  const [refreshDate, setRefreshDate] = useRecoilStateWithSSR(
+    refreshDateState,
+    0
+  );
+  const refreshDateInstance = new Date(refreshDate);
+  const formattedRefreshDate = `${refreshDateInstance.getFullYear()}년 ${
+    refreshDateInstance.getMonth() + 1
+  }월 ${refreshDateInstance.getDay()}일 ${refreshDateInstance.getHours()} : ${refreshDateInstance.getMinutes()} : ${refreshDateInstance.getSeconds()}`;
   const [productUrl, setProductUrl] = useState<string>("");
   const [editMode, setEditMode] = useRecoilState(editModeState);
   const [selectedDeleteItems, setSelectedDeleteItems] = useRecoilState(
@@ -61,6 +69,7 @@ export default function Home() {
         url: productList.map((item) => item.url),
       });
       setProductList(data.productInfo);
+      setRefreshDate(Date.now());
     } catch (error) {
       console.log(error);
     }
@@ -136,7 +145,10 @@ export default function Home() {
           <button className=" mr-[10px]" onClick={refreshItems}>
             <Refresh className="w-[24px] h-[24px]" />
           </button>
-          <span>마지막 갱신 시간:</span>&nbsp;2024년 1월 10일 11:24:39[example]
+          <span>마지막 갱신 시간:</span>&nbsp;
+          {refreshDate !== 0
+            ? formattedRefreshDate
+            : "갱신 된 시간이 존재하지 않아요."}
         </p>
       </div>
       {productList.map((product) => {
