@@ -42,7 +42,7 @@ channel.addEventListener("message", (event) => {
 //현재 상품목록 얻어오기
 setInterval(() => {
   channel.postMessage({ command: "refreshProducts" });
-}, INTERVAL_TIME * 5);
+}, INTERVAL_TIME * 60 * 60);
 
 // 새로고침 하고나서 품절된 상품이 갱신되었는지 확인.
 self.addEventListener("message", (event) => {
