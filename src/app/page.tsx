@@ -1,6 +1,12 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import axios from "axios";
 import Button from "./_components/Button";
 import Image from "next/image";
@@ -69,7 +75,7 @@ export default function Home() {
     setProductUrl(value);
   };
 
-  const refreshItems = async () => {
+  const refreshItems = useCallback(async () => {
     setIsRefresh(true);
     if (isRefresh === false) {
       try {
@@ -86,7 +92,7 @@ export default function Home() {
       }
     }
     setIsRefresh(false);
-  };
+  }, [isRefresh, productList, setProductList, setRefreshDate]);
 
   const addProduct = async (event: FormEvent<HTMLFormElement>) => {
     // TODO 상품 요청 전 중복상품이 있는 경우 필터링 처리
@@ -122,6 +128,25 @@ export default function Home() {
       alert("URL이 입력되지 않았어요 URL으로 입력해주세요.");
     }
   };
+
+  useEffect(() => {
+    const channel = new BroadcastChannel("sw-messages");
+    channel.addEventListener("message", (event) => {
+      const message = event.data;
+      const previousProductList = productList;
+
+      if (message.command === "refreshProducts") {
+        refreshItems();
+        channel.postMessage({
+          status: "success",
+          command: "refreshProducts",
+          data: { newData: productList, previousData: previousProductList },
+        });
+      }
+    });
+
+    return () => channel.close();
+  }, [productList, refreshItems]);
 
   return (
     <>

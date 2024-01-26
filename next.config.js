@@ -7,6 +7,7 @@ const withPWA = require("next-pwa")({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: false,
   images: {
     remotePatterns: [
       {
@@ -17,13 +18,6 @@ const nextConfig = {
     ],
   },
   webpack: (config) => {
-    config.module.rules.push({
-      test: /\.worker\.ts$/,
-      use: {
-        loader: "worker-loader",
-      },
-    });
-
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) =>
       rule.test?.test?.(".svg")

@@ -28,7 +28,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "worker/index.js"
+    "src/worker/index.js"
   ],
   "exclude": ["node_modules"]
 }
