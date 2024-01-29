@@ -36,7 +36,7 @@ export default function Home() {
   const refreshDateInstance = new Date(refreshDate);
   const formattedRefreshDate = `${refreshDateInstance.getFullYear()}년 ${
     refreshDateInstance.getMonth() + 1
-  }월 ${refreshDateInstance.getDay()}일 ${refreshDateInstance.getHours()} : ${refreshDateInstance.getMinutes()} : ${refreshDateInstance.getSeconds()}`;
+  }월 ${refreshDateInstance.getDate()}일 ${refreshDateInstance.getHours()} : ${refreshDateInstance.getMinutes()} : ${refreshDateInstance.getSeconds()}`;
   const [productUrl, setProductUrl] = useState<string>("");
   const [editMode, setEditMode] = useRecoilState(editModeState);
   const [selectedDeleteItems, setSelectedDeleteItems] = useRecoilState(
