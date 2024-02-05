@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import RecoilRootProvider from "@/utils/recoilRootProvider";
-import Header from "./_components/Header";
 
 export const metadata: Metadata = {
   title: "리노티",
@@ -20,14 +19,7 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </head>
       <RecoilRootProvider>
-        <body>
-          <Header />
-          <div
-            className={`grid grid-cols-4 pc:grid-cols-8 gap-[20px] pc:gap-[40px] mx-auto w-[90%] pc:max-w-[1920px] prose dark:prose-invert auto-rows-max pc:w-[90%])] pt-[10px]`}
-          >
-            {children}
-          </div>
-        </body>
+        <body>{children}</body>
       </RecoilRootProvider>
     </html>
   );

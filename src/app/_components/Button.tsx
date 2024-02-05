@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 
 const colorStyles = {
   primary: "bg-main",
+  custom: "",
 };
 
 interface ButtonProps

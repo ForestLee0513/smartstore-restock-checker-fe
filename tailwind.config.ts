@@ -40,10 +40,13 @@ const config: Config = {
             "*:not(.no-prose) a:not(.no-prose)": {
               fontWeight: 400,
             },
-            "p, span, h1, h2, h3, h4, h5, h6": {
+            "h1, h2, h3, h4, h5, h6": {
               marginBottom: 0,
               marginTop: 0,
               fontWeight: 800,
+            },
+            "p, span": {
+              fontWeight: 400,
             },
             h1: {
               fontSize: "3rem",
